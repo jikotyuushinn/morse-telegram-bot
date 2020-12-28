@@ -1,0 +1,4 @@
+Server:
+  port: 8088
+Static:
+  filePath: "./static/xmorse.min.js"

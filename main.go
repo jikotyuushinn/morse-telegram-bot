@@ -2,7 +2,7 @@
  * @Author: Kasper
  * @Date: 2020-12-28 13:29:27
  * @LastEditors: Kasper
- * @LastEditTime: 2020-12-28 13:42:39
+ * @LastEditTime: 2020-12-28 18:49:30
  * @Description: file content
  */
 
@@ -22,5 +22,5 @@ func main() {
 	r.Use(ComputeCostTime, CORSMiddleware())
 	r = CollectRoute(r)
 
-	panic(r.Run(":" + viper.GetString("server.port")))
+	panic(r.Run())
 }

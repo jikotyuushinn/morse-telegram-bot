@@ -12,7 +12,13 @@ import (
 	"github.com/spf13/viper"
 )
 
-func InitConfig() {
+var (
+	SeverPort string
+	StaticPath string
+)
+
+
+func init() {
 
 	viper.SetConfigName("config")
 	viper.SetConfigType("yaml")
@@ -21,4 +27,11 @@ func InitConfig() {
 	if err := viper.ReadInConfig(); err != nil {
 		panic(err.Error())
 	}
+	
+	initConfig()
+}
+
+func initConfig() {
+	SeverPort = viper.GetString("Server.port")
+	StaticPath = viper.GetString("static.filePath")
 }

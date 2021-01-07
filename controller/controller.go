@@ -11,15 +11,15 @@ package controller
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/robertkrimen/otto"
-	"github.com/spf13/viper"
 	"io/ioutil"
+	"morse-telegram-bot/util"
 	"net/http"
 )
 
 
 func Decode(c *gin.Context) {
 	morseCode := c.Query("morseCode")
-	res, err := JsParser(viper.GetString("static.filePath"), "xmorse.decode", morseCode)
+	res, err := JsParser(util.StaticPath, "xmorse.decode", morseCode)
 	if err != nil {
 		c.JSON(http.StatusOK, gin.H{
 			"result": res,
@@ -34,7 +34,7 @@ func Decode(c *gin.Context) {
 
 func Encode(c *gin.Context) {
 	text := c.Query("text")
-	res, err := JsParser(viper.GetString("static.filePath"), "xmorse.encode", text)
+	res, err := JsParser(util.StaticPath, "xmorse.encode", text)
 	if err != nil {
 		c.JSON(http.StatusOK, gin.H{
 			"result": res,

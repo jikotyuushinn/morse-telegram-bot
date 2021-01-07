@@ -15,11 +15,10 @@ import (
 )
 
 func main() {
-	util.InitConfig()
 
 	r := gin.Default()
 	r.Use(ComputeCostTime, CORSMiddleware())
 	r = CollectRoute(r)
 
-	panic(r.Run())
+	panic(r.Run(util.SeverPort))
 }

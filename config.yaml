@@ -1,4 +1,6 @@
 Server:
-  port: 8088
+  port: :8088
 Static:
   filePath: "./static/xmorse.min.js"
+Telegram:
+  ACCESS_TOKEN: 1346649016:AAFo81E3ZUfaMWe50OM0GWIXQQaX1iFf4eU

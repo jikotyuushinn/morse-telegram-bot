@@ -10,8 +10,8 @@ package middleware
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/spf13/viper"
 	"log"
+	"morse-telegram-bot/util"
 	"net/http"
 	"time"
 )
@@ -25,7 +25,7 @@ func ComputeCostTime(c *gin.Context) {
 
 func CORSMiddleware() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		ctx.Writer.Header().Set("Access-Control-Allow-Origin", viper.GetString("web.address"))
+		ctx.Writer.Header().Set("Access-Control-Allow-Origin", util.ServerIP)
 		ctx.Writer.Header().Set("Access-Control-Max-Age", "86400")
 		ctx.Writer.Header().Set("Access-Control-Allow-Methods", "*")
 		ctx.Writer.Header().Set("Access-Control-Allow-Headers", "*")

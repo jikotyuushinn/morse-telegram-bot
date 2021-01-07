@@ -2,7 +2,7 @@
  * @Author: Kasper
  * @Date: 2020-12-28 13:43:24
  * @LastEditors: Kasper
- * @LastEditTime: 2020-12-28 13:43:32
+ * @LastEditTime: 2021-01-07 15:24:00
  * @Description: file content
  */
 
@@ -10,9 +10,11 @@ package util
 
 import (
 	"github.com/spf13/viper"
+	"log"
 )
 
 var (
+	ServerIP string
 	SeverPort string
 	StaticPath string
 )
@@ -25,13 +27,14 @@ func init() {
 	viper.AddConfigPath("./")
 
 	if err := viper.ReadInConfig(); err != nil {
-		panic(err.Error())
+		log.Fatalf("init config file error: %v", err)
 	}
 	
 	initConfig()
 }
 
 func initConfig() {
+	ServerIP = viper.GetString("Server.ip")
 	SeverPort = viper.GetString("Server.port")
-	StaticPath = viper.GetString("static.filePath")
+	StaticPath = viper.GetString("Static.filePath")
 }

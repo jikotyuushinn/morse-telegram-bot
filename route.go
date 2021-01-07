@@ -22,7 +22,7 @@ func CollectRoute(r *gin.Engine) *gin.Engine {
 		MorseGroup.GET("/decode", Decode)
 	}
 	r.NoRoute(func(c *gin.Context) {
-		c.JSON(http.StatusNotFound, gin.H{
+		c.JSON(http.StatusOK, gin.H{
 			"message": "呵呵。",
 		})
 	})

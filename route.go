@@ -11,7 +11,7 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 	. "morse-telegram-bot/controller"
-	"net/http"
+	"morse-telegram-bot/util"
 )
 
 func CollectRoute(r *gin.Engine) *gin.Engine {
@@ -22,8 +22,8 @@ func CollectRoute(r *gin.Engine) *gin.Engine {
 		MorseGroup.GET("/decode", Decode)
 	}
 	r.NoRoute(func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"message": "呵呵。",
+		util.FailResponse(c, gin.H{
+			"data": "呵呵。",
 		})
 	})
 

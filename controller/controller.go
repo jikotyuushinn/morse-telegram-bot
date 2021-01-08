@@ -13,7 +13,7 @@ import (
 	"github.com/robertkrimen/otto"
 	"io/ioutil"
 	"log"
-	"morse-telegram-bot/util"
+	. "morse-telegram-bot/util"
 	"net/http"
 )
 
@@ -21,46 +21,37 @@ import (
 func Decode(c *gin.Context) {
 	morseCode := c.Query("morseCode")
 	if morseCode == "" {
-		c.JSON(http.StatusOK, gin.H{
-			"code": util.QueryError,
-			"message": util.GetCodeMessage(util.QueryError),
-		})
+		Response(c, http.StatusUnprocessableEntity, QueryError, nil, GetCodeMessage(QueryError))
+		return
 	}
 	
-	res, err := JsParser(util.StaticPath, "xmorse.decode", morseCode)
+	res, err := JsParser(StaticPath, "xmorse.decode", morseCode)
 	if err != nil {
-		c.JSON(http.StatusOK, gin.H{
-			"code": util.ServerError,
-			"message": util.GetCodeMessage(util.ServerError),
-		})
+		Response(c, http.StatusInternalServerError, ServerError, nil, GetCodeMessage(ServerError))
+		return
 	}
 	
-	c.JSON(http.StatusOK, gin.H{
-		"code": util.Success,
-		"data": res,
+	SuccessResponse(c, gin.H{
+		"text": res,
 	})
+
 }
 
 func Encode(c *gin.Context) {
 	text := c.Query("text")
 	if text == "" {
-		c.JSON(http.StatusOK, gin.H{
-			"code": util.QueryError,
-			"message": util.GetCodeMessage(util.QueryError),
-		})
+		Response(c, http.StatusUnprocessableEntity, QueryError, nil, GetCodeMessage(QueryError))
+		return
 	}
 	
-	res, err := JsParser(util.StaticPath, "xmorse.encode", text)
+	res, err := JsParser(StaticPath, "xmorse.encode", text)
 	if err != nil {
-		c.JSON(http.StatusOK, gin.H{
-			"code": util.ServerError,
-			"message": util.GetCodeMessage(util.ServerError),
-		})
+		Response(c, http.StatusInternalServerError, ServerError, nil, GetCodeMessage(ServerError))
+		return
 	}
 	
-	c.JSON(http.StatusOK, gin.H{
-		"code": util.Success,
-		"data": res,
+	SuccessResponse(c, gin.H{
+		"morseCode": res,
 	})
 }
 

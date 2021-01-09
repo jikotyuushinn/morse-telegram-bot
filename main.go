@@ -17,7 +17,7 @@ import (
 func main() {
 
 	r := gin.Default()
-	r.Use(ComputeCostTime, CORSMiddleware())
+	r.Use(Log(), CORSMiddleware())
 	r = CollectRoute(r)
 
 	panic(r.Run(util.SeverPort))

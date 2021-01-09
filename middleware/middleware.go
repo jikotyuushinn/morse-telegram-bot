@@ -16,11 +16,15 @@ import (
 	"time"
 )
 
-func ComputeCostTime(c *gin.Context) {
-	start := time.Now()
-	c.Next()
-	cost := time.Since(start)
-	log.Printf("func %s cost: %v", c.HandlerName(), cost)
+func Log() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		start := time.Now()
+		c.Next()
+		cost := time.Since(start)
+		log.Printf("%s - %s - %s - %s - %d - %s", c.Request.UserAgent(), c.ClientIP(),
+			c.Request.RequestURI, c.Request.Method, c.Writer.Status(), cost)
+	}
+	
 }
 
 func CORSMiddleware() gin.HandlerFunc {

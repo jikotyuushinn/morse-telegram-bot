@@ -1,11 +1,3 @@
-/*
- * @Author: Kasper
- * @Date: 2020-12-28 13:41:53
- * @LastEditors: Kasper
- * @LastEditTime: 2020-12-28 13:42:17
- * @Description: file content
- */
-
 package main
 
 import (

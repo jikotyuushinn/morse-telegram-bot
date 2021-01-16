@@ -74,18 +74,32 @@ func main() {
 			log.Println(err)
 			return
 		}
+		log.Printf("From: %+v Chat: %+v Text: %+v\n", update.Message.From, update.Message.Chat.ID,
+			update.Message.Text)
 		
 		var response tgbotapi.MessageConfig
 		
 		if update.Message.IsCommand() {
 			switch command := update.Message.Command(); command  {
+			case "start":
+				response = tgbotapi.NewMessage(update.Message.Chat.ID, "不準開始")
 			case "help":
 				response = tgbotapi.NewMessage(update.Message.Chat.ID, "禁止幫助")
 			case "decode":
-				res, _ := controller.JsParser(util.StaticPath, "xmorse.decode", update.Message.Text[8:])
+				morseCode := update.Message.Text[8:]
+				if morseCode == "" {
+					response = tgbotapi.NewMessage(update.Message.Chat.ID, "勸你最好有輸入")
+					break
+				}
+				res, _ := controller.JsParser(util.StaticPath, "xmorse.decode", morseCode)
 				response = tgbotapi.NewMessage(update.Message.Chat.ID, res)
 			case "encode":
-				res, _ := controller.JsParser(util.StaticPath, "xmorse.encode", update.Message.Text[8:])
+				text := update.Message.Text[8:]
+				if text == "" {
+					response = tgbotapi.NewMessage(update.Message.Chat.ID, "勸你最好有輸入")
+					break
+				}
+				res, _ := controller.JsParser(util.StaticPath, "xmorse.encode", text)
 				response = tgbotapi.NewMessage(update.Message.Chat.ID, res)
 			default:
 				response = tgbotapi.NewMessage(update.Message.Chat.ID, "不要亂玩人家哦。")
@@ -95,7 +109,6 @@ func main() {
 		}
 		
 		bot.Send(response)
-		log.Printf("From: %+v Text: %+v\n", update.Message.From, update.Message.Text)
 	})
 	
 	err = router.Run()

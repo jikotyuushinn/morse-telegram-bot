@@ -2,10 +2,12 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/gin-gonic/gin"
-	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
+	"github.com/go-telegram-bot-api/telegram-bot-api"
 	"io/ioutil"
 	"log"
+	. "morse-telegram-bot/middleware"
 	"morse-telegram-bot/util"
 )
 
@@ -24,12 +26,20 @@ func webhookHandler(c *gin.Context) {
 		log.Println(err)
 		return
 	}
-	
-	// to monitor changes run: heroku logs --tail
+	if update.Message.IsCommand() {
+		switch command := update.Message.Command(); command  {
+		case "help":
+			fmt.Println(tgbotapi.NewMessage(update.Message.Chat.ID, "禁止幫助"))
+		case "decode":
+			fmt.Println(tgbotapi.NewMessage(update.Message.Chat.ID, "不準解碼"))
+		case "encode":
+			fmt.Println(tgbotapi.NewMessage(update.Message.Chat.ID, "不準編碼"))
+		default:
+			fmt.Println(tgbotapi.NewMessage(update.Message.Chat.ID, "錯誤命令"))
+		}
+	}
 	log.Printf("From: %+v Text: %+v\n", update.Message.From, update.Message.Text)
 }
-
-
 
 func main() {
 	bot, err := tgbotapi.NewBotAPI(util.AccessToken)
@@ -42,10 +52,8 @@ func main() {
 		log.Fatal(err)
 	}
 	
-	
-	// gin router
-	router := gin.New()
-	router.Use(gin.Logger())
+	router := gin.Default()
+	router.Use(LogMiddleware())
 	
 	router.POST("/" + bot.Token, webhookHandler)
 	
@@ -54,8 +62,5 @@ func main() {
 		log.Println(err)
 	}
 
-	//r := gin.Default()
-	//r.Use(LogMiddleware())
 	//r = CollectRoute(r)
-	//panic(r.Run())
 }

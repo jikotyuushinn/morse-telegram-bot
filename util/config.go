@@ -10,6 +10,7 @@ package util
 
 import (
 	"os"
+	"path/filepath"
 )
 
 var (
@@ -20,6 +21,9 @@ var (
 
 func init() {
 	AccessToken = os.Getenv("ACCESS_TOKEN")
-	StaticPath = os.Getenv("FILE_PATH")
-
+	currentPath, err := os.Getwd()
+	if err != nil {
+		panic(err)
+	}
+	StaticPath = filepath.Join(currentPath, os.Getenv("FILE_PATH"))
 }

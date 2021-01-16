@@ -9,32 +9,17 @@
 package util
 
 import (
-	"github.com/spf13/viper"
-	"log"
+	"os"
 )
 
 var (
-	ServerIP string
-	SeverPort string
+	AccessToken string
 	StaticPath string
 )
 
 
 func init() {
+	AccessToken = os.Getenv("ACCESS_TOKEN")
+	StaticPath = os.Getenv("FILE_PATH")
 
-	viper.SetConfigName("config")
-	viper.SetConfigType("yaml")
-	viper.AddConfigPath("./")
-
-	if err := viper.ReadInConfig(); err != nil {
-		log.Fatalf("init config file error: %v", err)
-	}
-	
-	initConfig()
-}
-
-func initConfig() {
-	ServerIP = viper.GetString("Server.ip")
-	SeverPort = viper.GetString("Server.port")
-	StaticPath = viper.GetString("Static.filePath")
 }

@@ -1,7 +1,0 @@
-Server:
-  ip: 127.0.0.1
-  port: :8088
-Static:
-  filePath: "./static/xmorse.min.js"
-Telegram:
-  ACCESS_TOKEN: YOUR ACCESS TOKEN

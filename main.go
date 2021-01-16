@@ -16,9 +16,8 @@ import (
 func main() {
 
 	r := gin.Default()
-	r.Use(Log(), CORSMiddleware())
+	r.Use(LogMiddleware())
 	r = CollectRoute(r)
 
 	panic(r.Run())
-	//panic(r.Run(util.SeverPort))
 }

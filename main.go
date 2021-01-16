@@ -10,6 +10,7 @@ import (
 	"morse-telegram-bot/controller"
 	. "morse-telegram-bot/middleware"
 	"morse-telegram-bot/util"
+	"strings"
 )
 
 func webhookHandler(c *gin.Context) {
@@ -80,13 +81,13 @@ func main() {
 		var response tgbotapi.MessageConfig
 		
 		if update.Message.IsCommand() {
-			switch command := update.Message.Command(); command  {
+			switch command := update.Message.Command(); command {
 			case "start":
 				response = tgbotapi.NewMessage(update.Message.Chat.ID, "不準開始")
 			case "help":
 				response = tgbotapi.NewMessage(update.Message.Chat.ID, "禁止幫助")
 			case "decode":
-				morseCode := update.Message.Text[8:]
+				morseCode := strings.Replace(update.Message.Text, "/decode", "", 1)
 				if morseCode == "" {
 					response = tgbotapi.NewMessage(update.Message.Chat.ID, "勸你最好有輸入")
 					break
@@ -94,7 +95,7 @@ func main() {
 				res, _ := controller.JsParser(util.StaticPath, "xmorse.decode", morseCode)
 				response = tgbotapi.NewMessage(update.Message.Chat.ID, res)
 			case "encode":
-				text := update.Message.Text[8:]
+				text := strings.Replace(update.Message.Text, "/encode", "", 1)
 				if text == "" {
 					response = tgbotapi.NewMessage(update.Message.Chat.ID, "勸你最好有輸入")
 					break

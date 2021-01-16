@@ -11,7 +11,6 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 	. "morse-telegram-bot/middleware"
-	"morse-telegram-bot/util"
 )
 
 func main() {
@@ -20,5 +19,6 @@ func main() {
 	r.Use(Log(), CORSMiddleware())
 	r = CollectRoute(r)
 
-	panic(r.Run(util.SeverPort))
+	panic(r.Run())
+	//panic(r.Run(util.SeverPort))
 }

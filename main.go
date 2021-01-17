@@ -33,14 +33,19 @@ func main() {
 	})
 
 	b.Handle("/decode", func(m *tb.Message) {
+		if m.Payload == "" {
+			_, _ = b.Send(m.Chat, "勸你最好有輸入。")
+		}
 		text, _ := controller.JsParser(util.StaticPath, "xmorse.decode", m.Payload)
-		_, _ = b.Send(m.Sender, text)
-		//b.Delete(m.Text)
+		_, _ = b.Send(m.Chat, text)
 	})
 	
 	b.Handle("/encode", func(m *tb.Message) {
+		if m.Payload == "" {
+			_, _ = b.Send(m.Chat, "勸你最好有輸入。")
+		}
 		text, _ := controller.JsParser(util.StaticPath, "xmorse.encode", m.Payload)
-		_, _ = b.Send(m.Sender, text)
+		_, _ = b.Send(m.Chat, text)
 		//b.Delete(m.Text)
 	})
 	//b.Handle(tb.OnText, func(m *tb.Message) {

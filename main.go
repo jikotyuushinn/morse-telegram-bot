@@ -26,7 +26,7 @@ func main() {
 	//router.Use(LogMiddleware())
 	
 	router.POST("/" + bot.Token, func(c *gin.Context) {
-		
+		defer c.Request.Body.Close()
 		bytes, err := ioutil.ReadAll(c.Request.Body)
 		if err != nil {
 			log.Println(err)

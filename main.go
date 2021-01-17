@@ -51,7 +51,7 @@ func main() {
 			case "help":
 				_, _ = bot.Send(tgbotapi.NewMessage(update.Message.Chat.ID, "禁止幫助"))
 			case "decode":
-				morseCode := strings.TrimLeft(update.Message.Text, "/decode ")
+				morseCode := strings.TrimPrefix(update.Message.Text, "/decode ")
 				if morseCode == "" {
 					_, _ = bot.Send(tgbotapi.NewMessage(update.Message.Chat.ID, "勸你最好有輸入"))
 					break
@@ -60,7 +60,7 @@ func main() {
 				_, _ = bot.Send(tgbotapi.NewMessage(update.Message.Chat.ID, res))
 				_, _ = bot.Send(tgbotapi.NewDeleteMessage(update.Message.Chat.ID, update.Message.MessageID))
 			case "encode":
-				text := strings.TrimLeft(update.Message.Text, "/encode ")
+				text := strings.TrimPrefix(update.Message.Text, "/encode ")
 				if text == "" {
 					_, _ = bot.Send(tgbotapi.NewMessage(update.Message.Chat.ID, "勸你最好有輸入"))
 					break

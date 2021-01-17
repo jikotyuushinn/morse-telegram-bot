@@ -7,7 +7,6 @@ import (
 	"io/ioutil"
 	"log"
 	"morse-telegram-bot/controller"
-	. "morse-telegram-bot/middleware"
 	"morse-telegram-bot/util"
 	"strings"
 )
@@ -24,7 +23,7 @@ func main() {
 	}
 	
 	router := gin.Default()
-	router.Use(LogMiddleware())
+	//router.Use(LogMiddleware())
 	
 	router.POST("/" + bot.Token, func(c *gin.Context) {
 		defer c.Request.Body.Close()

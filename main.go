@@ -11,8 +11,11 @@ import (
 	"strings"
 )
 
+var bot *tgbotapi.BotAPI
+var err error
+
 func main() {
-	bot, err := tgbotapi.NewBotAPI(util.AccessToken)
+	bot, err = tgbotapi.NewBotAPI(util.AccessToken)
 	if err != nil {
 		log.Fatal(err)
 	}

@@ -39,8 +39,10 @@ func main() {
 			log.Println(err)
 			return
 		}
-		log.Printf("%s %d %s", update.Message.From, update.Message.Chat.ID,
-			update.Message.Text)
+		log.Println(update.Message)
+		log.Println(update.Message.Chat)
+		//log.Printf("%s %d %s", update.Message.From, update.Message.Chat.ID,
+		//	update.Message.Text)
 		
 		if update.Message.IsCommand() {
 			switch command := update.Message.Command(); command {

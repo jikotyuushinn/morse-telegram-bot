@@ -9,6 +9,7 @@ import (
 var (
 	AccessToken string
 	WebhookHost string
+	Port        string
 	StaticPath  string
 )
 
@@ -20,5 +21,6 @@ func init() {
 		log.Panic(err)
 	}
 	WebhookHost = os.Getenv("WEBHOOK_HOST")
+	Port = os.Getenv("PORT")
 	StaticPath = filepath.Join(currentPath, os.Getenv("FILE_PATH"))
 }

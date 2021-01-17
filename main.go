@@ -26,7 +26,6 @@ func main() {
 	//router.Use(LogMiddleware())
 	
 	router.POST("/" + bot.Token, func(c *gin.Context) {
-		defer c.Request.Body.Close()
 		
 		bytes, err := ioutil.ReadAll(c.Request.Body)
 		if err != nil {
@@ -51,7 +50,7 @@ func main() {
 				_, _ = bot.Send(tgbotapi.NewMessage(update.Message.Chat.ID, "禁止幫助"))
 			case "decode":
 				morseCode := strings.TrimPrefix(update.Message.Text, "/decode ")
-				if morseCode == "" {
+				if morseCode == "" || update.Message.Text == "/decode" {
 					_, _ = bot.Send(tgbotapi.NewMessage(update.Message.Chat.ID, "勸你最好有輸入"))
 					break
 				}
@@ -60,7 +59,7 @@ func main() {
 				_, _ = bot.Send(tgbotapi.NewDeleteMessage(update.Message.Chat.ID, update.Message.MessageID))
 			case "encode":
 				text := strings.TrimPrefix(update.Message.Text, "/encode ")
-				if text == "" {
+				if text == "" || update.Message.Text == "/encode" {
 					_, _ = bot.Send(tgbotapi.NewMessage(update.Message.Chat.ID, "勸你最好有輸入"))
 					break
 				}

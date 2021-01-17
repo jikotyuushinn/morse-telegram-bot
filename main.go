@@ -11,11 +11,8 @@ import (
 	"strings"
 )
 
-var bot *tgbotapi.BotAPI
-var err error
-
 func main() {
-	bot, err = tgbotapi.NewBotAPI(util.AccessToken)
+	bot, err := tgbotapi.NewBotAPI(util.AccessToken)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -43,7 +40,7 @@ func main() {
 			return
 		}
 		log.Println(update.Message)
-		log.Println(update.Message.Chat)
+		//log.Println(update.Message.Chat)
 		//log.Printf("%s %d %s", update.Message.From, update.Message.Chat.ID,
 		//	update.Message.Text)
 		

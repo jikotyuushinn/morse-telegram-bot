@@ -25,11 +25,11 @@ func main() {
 	}
 
 	b.Handle("/start", func(m *tb.Message) {
-		_, _ = b.Send(m.Sender, "不準開始。")
+		_, _ = b.Send(m.Chat, "不準開始。")
 	})
 	
 	b.Handle("/help", func(m *tb.Message) {
-		_, _ = b.Send(m.Sender, "禁止幫助⛔。")
+		_, _ = b.Send(m.Chat, "禁止幫助⛔。")
 	})
 
 	b.Handle("/decode", func(m *tb.Message) {
@@ -37,7 +37,8 @@ func main() {
 			_, _ = b.Send(m.Chat, "勸你最好有輸入。")
 		}
 		text, _ := controller.JsParser(util.StaticPath, "xmorse.decode", m.Payload)
-		_, _ = b.Send(m.Chat, text)
+		_, _ = b.Reply(m, text)
+		_ = b.Delete(m)
 	})
 	
 	b.Handle("/encode", func(m *tb.Message) {
@@ -45,8 +46,8 @@ func main() {
 			_, _ = b.Send(m.Chat, "勸你最好有輸入。")
 		}
 		text, _ := controller.JsParser(util.StaticPath, "xmorse.encode", m.Payload)
-		_, _ = b.Send(m.Chat, text)
-		//b.Delete(m.Text)
+		_, _ = b.Reply(m, text)
+		_ = b.Delete(m)
 	})
 	//b.Handle(tb.OnText, func(m *tb.Message) {
 	//	_, _ = b.Send(m.Sender, "hello world")

@@ -32,5 +32,8 @@ func EncodeHandler(m *tb.Message) {
 }
 
 func OnTextHandler(m *tb.Message) {
+	if m.FromGroup() || m.FromChannel() {
+		return
+	}
 	_, _ = b.Send(m.Chat, "這位先生，本小姐不陪聊哦。")
 }

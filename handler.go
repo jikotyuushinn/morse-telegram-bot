@@ -7,29 +7,17 @@ import (
 )
 
 func StartHandler(m *tb.Message) {
-	if m.FromChannel() || m.FromGroup() {
-		_ = b.Notify(m.Chat, tb.Typing)
-	} else {
-		_ = b.Notify(m.Sender, tb.Typing)
-	}
+	_ = b.Notify(m.Chat, tb.Typing)
 	_, _ = b.Send(m.Chat, "不準開始。")
 }
 
 func HelpHandler(m *tb.Message) {
-	if m.FromChannel() || m.FromGroup() {
-		_ = b.Notify(m.Chat, tb.Typing)
-	} else {
-		_ = b.Notify(m.Sender, tb.Typing)
-	}
+	_ = b.Notify(m.Chat, tb.Typing)
 	_, _ = b.Send(m.Chat, "禁止幫助⛔。")
 }
 
 func DecodeHandler(m *tb.Message) {
-	if m.FromChannel() || m.FromGroup() {
-		_ = b.Notify(m.Chat, tb.Typing)
-	} else {
-		_ = b.Notify(m.Sender, tb.Typing)
-	}
+	_ = b.Notify(m.Chat, tb.Typing)
 	
 	if m.Payload == "" {
 		_, _ = b.Send(m.Chat, "勸你最好有輸入。")
@@ -42,11 +30,7 @@ func DecodeHandler(m *tb.Message) {
 }
 
 func EncodeHandler(m *tb.Message) {
-	if m.FromChannel() || m.FromGroup() {
-		_ = b.Notify(m.Chat, tb.Typing)
-	} else {
-		_ = b.Notify(m.Sender, tb.Typing)
-	}
+	_ = b.Notify(m.Chat, tb.Typing)
 	
 	if m.Payload == "" {
 		_, _ = b.Send(m.Chat, "勸你最好有輸入。")
@@ -63,9 +47,7 @@ func OnTextHandler(m *tb.Message) {
 		if !strings.HasPrefix(m.Text, "/") {
 			return
 		}
-		_ = b.Notify(m.Chat, tb.Typing)
-	} else {
-		_ = b.Notify(m.Sender, tb.Typing)
 	}
+	_ = b.Notify(m.Chat, tb.Typing)
 	_, _ = b.Send(m.Chat, "這位先生，本小姐不陪聊哦。")
 }

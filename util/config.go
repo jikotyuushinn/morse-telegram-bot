@@ -1,10 +1,12 @@
 package util
 
 import (
+	"fmt"
+	log "github.com/sirupsen/logrus"
 	tb "gopkg.in/tucnak/telebot.v2"
-	"log"
 	"os"
 	"path/filepath"
+	"runtime"
 )
 
 var (
@@ -23,6 +25,20 @@ func init() {
 	WebhookHost = os.Getenv("WEBHOOK_HOST")
 	Port = os.Getenv("PORT")
 	StaticPath = filepath.Join(currentPath, os.Getenv("FILE_PATH"))
+}
+
+func init() {
+	log.SetOutput(os.Stdout)
+	log.SetReportCaller(true)
+	Formatter := &log.TextFormatter{
+		EnvironmentOverrideColors: true,
+		FullTimestamp:             true,
+		TimestampFormat:           "2006-01-02 15:04:05",
+		CallerPrettyfier: func(f *runtime.Frame) (string, string) {
+			return fmt.Sprintf("[%s()]", f.Function), ""
+		},
+	}
+	log.SetFormatter(Formatter)
 }
 
 func InitBot() *tb.Bot {

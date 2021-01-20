@@ -1,6 +1,7 @@
 package main
 
 import (
+	log "github.com/sirupsen/logrus"
 	tb "gopkg.in/tucnak/telebot.v2"
 	"morse-telegram-bot/util"
 	"strings"
@@ -24,7 +25,10 @@ func DecodeHandler(m *tb.Message) {
 		return
 	}
 	
-	text, _ := util.JsParser(util.StaticPath, "xmorse.decode", m.Payload)
+	text, err := util.JsParser(util.StaticPath, "xmorse.decode", m.Payload)
+	if err != nil {
+		log.Errorf("failed to decode morse code: %v", err)
+	}
 	_, _ = b.Reply(m, text)
 	_ = b.Delete(m)
 }
@@ -37,7 +41,10 @@ func EncodeHandler(m *tb.Message) {
 		return
 	}
 	
-	morseCode, _ := util.JsParser(util.StaticPath, "xmorse.encode", m.Payload)
+	morseCode, err := util.JsParser(util.StaticPath, "xmorse.encode", m.Payload)
+	if err != nil {
+		log.Errorf("failed to encode text: %v", err)
+	}
 	_, _ = b.Reply(m, morseCode)
 	_ = b.Delete(m)
 }

@@ -4,7 +4,6 @@ import (
 	log "github.com/sirupsen/logrus"
 	tb "gopkg.in/tucnak/telebot.v2"
 	"morse-telegram-bot/util"
-	"strings"
 )
 
 func StartHandler(m *tb.Message) {
@@ -51,9 +50,7 @@ func EncodeHandler(m *tb.Message) {
 
 func OnTextHandler(m *tb.Message) {
 	if m.FromGroup() || m.FromChannel() {
-		if !strings.HasPrefix(m.Text, "/") {
-			return
-		}
+		return
 	}
 	_ = b.Notify(m.Chat, tb.Typing)
 	_, _ = b.Send(m.Chat, "這位先生，本小姐不陪聊哦。")

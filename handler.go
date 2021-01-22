@@ -7,6 +7,9 @@ import (
 )
 
 func StartHandler(m *tb.Message) {
+	if !m.Private() {
+		return
+	}
 	_ = b.Notify(m.Chat, tb.Typing)
 	_, _ = b.Send(m.Chat, "不準開始。")
 }
@@ -49,7 +52,7 @@ func EncodeHandler(m *tb.Message) {
 }
 
 func OnTextHandler(m *tb.Message) {
-	if m.FromGroup() || m.FromChannel() {
+	if !m.Private() {
 		return
 	}
 	_ = b.Notify(m.Chat, tb.Typing)

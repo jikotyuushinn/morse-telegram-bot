@@ -10,7 +10,6 @@ type Bot struct {
 }
 
 func NewBot() (*Bot, error) {
-	InitConfig()
 	b, err := tele.NewBot(tele.Settings{Token: AccessToken, Synchronous: true})
 	if err != nil {
 		return nil, err

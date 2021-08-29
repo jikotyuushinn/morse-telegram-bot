@@ -1,16 +1,16 @@
 package api
 
 import (
+	"bot"
 	"encoding/json"
 	tele "gopkg.in/tucnak/telebot.v3"
 	"io"
-	tgbot "morse-telegram-bot"
 	"net/http"
 )
 
 func Handler(w http.ResponseWriter, r *http.Request) {
-	tgbot.InitConfig()
-	b, err := tgbot.NewBot()
+	bot.InitConfig()
+	b, err := bot.NewBot()
 	if err != nil {
 		panic(err)
 	}

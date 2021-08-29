@@ -1,4 +1,4 @@
-module morse-telegram-bot
+module bot
 
 go 1.17
 

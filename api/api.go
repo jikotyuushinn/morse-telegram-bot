@@ -12,7 +12,9 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	b, err := bot.NewBot()
 	if err != nil {
 		panic(err)
+
 	}
+	b.Start()
 
 	var u tele.Update
 	resp, _ := io.ReadAll(r.Body)

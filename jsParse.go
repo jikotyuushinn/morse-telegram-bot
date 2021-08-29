@@ -1,17 +1,17 @@
-package util
+package bot
 
 import (
 	"github.com/robertkrimen/otto"
-	"io/ioutil"
+	"os"
 )
 
-func JsParser(filePath string, functionName string, args... interface{}) (string, error) {
-	
-	bytes, err := ioutil.ReadFile(filePath)
+func JsParser(filePath string, functionName string, args ...interface{}) (string, error) {
+
+	bytes, err := os.ReadFile(filePath)
 	if err != nil {
 		return "", err
 	}
-	
+
 	vm := otto.New()
 	_, err = vm.Run(string(bytes))
 	if err != nil {
@@ -21,6 +21,6 @@ func JsParser(filePath string, functionName string, args... interface{}) (string
 	if err != nil {
 		return "", err
 	}
-	
+
 	return value.String(), nil
 }

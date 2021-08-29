@@ -1,60 +1,54 @@
-package main
+package bot
 
 import (
-	log "github.com/sirupsen/logrus"
-	tb "gopkg.in/tucnak/telebot.v2"
-	"morse-telegram-bot/util"
+	tele "gopkg.in/tucnak/telebot.v3"
 )
 
-func StartHandler(m *tb.Message) {
-	if !m.Private() {
-		return
+func (b Bot) onStart(c tele.Context) error {
+	if !c.Message().Private() {
+		return nil
 	}
-	_ = b.Notify(m.Chat, tb.Typing)
-	_, _ = b.Send(m.Chat, "不準開始。")
+	_ = c.Notify(tele.Typing)
+	return c.Send("🈲️开始")
 }
 
-func HelpHandler(m *tb.Message) {
-	_ = b.Notify(m.Chat, tb.Typing)
-	_, _ = b.Send(m.Chat, "禁止幫助⛔。")
+func (b Bot) onHelp(c tele.Context) error {
+	_ = c.Notify(tele.Typing)
+	return c.Send("🈲️帮助")
 }
 
-func DecodeHandler(m *tb.Message) {
-	_ = b.Notify(m.Chat, tb.Typing)
-	
-	if m.Payload == "" {
-		_, _ = b.Send(m.Chat, "勸你最好有輸入。")
-		return
+func (b Bot) onDecode(c tele.Context) error {
+	_ = c.Notify(tele.Typing)
+
+	if c.Message().Payload == "" {
+		return c.Send("勸你最好有輸入。")
 	}
-	
-	text, err := util.JsParser(util.StaticPath, "xmorse.decode", m.Payload)
+
+	text, err := JsParser(StaticPath, "xmorse.decode", c.Message().Payload)
 	if err != nil {
-		log.Errorf("failed to decode morse code: %v", err)
+		return err
 	}
-	_, _ = b.Reply(m, text)
-	_ = b.Delete(m)
+	return c.Reply(text)
 }
 
-func EncodeHandler(m *tb.Message) {
-	_ = b.Notify(m.Chat, tb.Typing)
-	
-	if m.Payload == "" {
-		_, _ = b.Send(m.Chat, "勸你最好有輸入。")
-		return
+func (b Bot) onEncode(c tele.Context) error {
+	_ = c.Notify(tele.Typing)
+
+	if c.Message().Payload == "" {
+		return c.Send("勸你最好有輸入。")
 	}
-	
-	morseCode, err := util.JsParser(util.StaticPath, "xmorse.encode", m.Payload)
+
+	morseCode, err := JsParser(StaticPath, "xmorse.encode", c.Message().Payload)
 	if err != nil {
-		log.Errorf("failed to encode text: %v", err)
+		return err
 	}
-	_, _ = b.Reply(m, morseCode)
-	_ = b.Delete(m)
+	return c.Reply(morseCode)
 }
 
-func OnTextHandler(m *tb.Message) {
-	if !m.Private() {
-		return
+func (b Bot) onText(c tele.Context) error {
+	if !c.Message().Private() {
+		return nil
 	}
-	_ = b.Notify(m.Chat, tb.Typing)
-	_, _ = b.Send(m.Chat, "這位先生，本小姐不陪聊哦。")
+	_ = c.Notify(tele.Typing)
+	return c.Reply("這位先生，本小姐不陪聊哦。")
 }

@@ -9,7 +9,6 @@ import (
 )
 
 func Handler(w http.ResponseWriter, r *http.Request) {
-	bot.InitConfig()
 	b, err := bot.NewBot()
 	if err != nil {
 		panic(err)

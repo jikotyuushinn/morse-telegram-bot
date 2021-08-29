@@ -11,7 +11,7 @@ var (
 	StaticPath  string
 )
 
-func InitConfig() {
+func initConfig() {
 	AccessToken = os.Getenv("ACCESS_TOKEN")
 	currentPath, err := os.Getwd()
 	if err != nil {

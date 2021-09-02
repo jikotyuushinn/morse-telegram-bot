@@ -1,4 +1,4 @@
-package bot
+package internal
 
 import (
 	tele "gopkg.in/tucnak/telebot.v3"
@@ -24,7 +24,7 @@ func (b Bot) onDecode(c tele.Context) error {
 		return c.Send("勸你最好有輸入。")
 	}
 
-	text, err := JsParser(StaticPath, "xmorse.decode", c.Message().Payload)
+	text, err := jsParser(StaticPath, "xmorse.decode", c.Message().Payload)
 	if err != nil {
 		return err
 	}
@@ -38,7 +38,7 @@ func (b Bot) onEncode(c tele.Context) error {
 		return c.Send("勸你最好有輸入。")
 	}
 
-	morseCode, err := JsParser(StaticPath, "xmorse.encode", c.Message().Payload)
+	morseCode, err := jsParser(StaticPath, "xmorse.encode", c.Message().Payload)
 	if err != nil {
 		return err
 	}

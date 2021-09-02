@@ -1,7 +1,7 @@
 package api
 
 import (
-	"bot"
+	"bot/internal"
 	"encoding/json"
 	tele "gopkg.in/tucnak/telebot.v3"
 	"io"
@@ -9,10 +9,9 @@ import (
 )
 
 func Handler(w http.ResponseWriter, r *http.Request) {
-	b, err := bot.NewBot()
+	b, err := internal.NewBot()
 	if err != nil {
 		panic(err)
-
 	}
 	b.Start()
 

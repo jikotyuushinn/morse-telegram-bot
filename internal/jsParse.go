@@ -1,11 +1,11 @@
-package bot
+package internal
 
 import (
 	"github.com/robertkrimen/otto"
 	"os"
 )
 
-func JsParser(filePath string, functionName string, args ...interface{}) (string, error) {
+func jsParser(filePath string, functionName string, args ...interface{}) (string, error) {
 
 	bytes, err := os.ReadFile(filePath)
 	if err != nil {

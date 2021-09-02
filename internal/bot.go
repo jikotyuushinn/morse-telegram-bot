@@ -1,4 +1,4 @@
-package bot
+package internal
 
 import (
 	tele "gopkg.in/tucnak/telebot.v3"

@@ -1,4 +1,4 @@
-import { decode, encode } from './xmorse.min';
+import { decode, encode } from "./xmorse.min";
 import config from "./config.json";
 
 const token = config["token"];
@@ -12,7 +12,6 @@ addEventListener("fetch", (event) => {
 async function handleRequest(request) {
   if (request.method === "POST") {
     let data = await request.json();
-    console.log(data.message);
     let message_id = data.message.message_id;
     let chat_id = data.message.chat.id;
     let text = data.message.text || "";
@@ -28,20 +27,36 @@ async function handleRequest(request) {
           });
           break;
         case "decode":
-          let decodeMessage = decode(texts[1]);
-          await tg(token, "sendMessage", {
-            chat_id: chat_id,
-            reply_to_message_id: message_id,
-            text: `${decodeMessage}`,
-          });
+          if (texts.length > 1) {
+            let decodeMessage = decode(texts[1]);
+            await tg(token, "sendMessage", {
+              chat_id: chat_id,
+              reply_to_message_id: message_id,
+              text: `${decodeMessage}`,
+            });
+          } else {
+            await tg(token, "sendMessage", {
+              chat_id: chat_id,
+              reply_to_message_id: message_id,
+              text: "no payload",
+            });
+          }
           break;
         case "encode":
-          let encodeMessage = encode(texts[1]);
-          await tg(token, "sendMessage", {
-            chat_id: chat_id,
-            reply_to_message_id: message_id,
-            text: `${encodeMessage}`,
-          });
+          if (texts.length > 1) {
+            let encodeMessage = encode(texts[1]);
+            await tg(token, "sendMessage", {
+              chat_id: chat_id,
+              reply_to_message_id: message_id,
+              text: `${encodeMessage}`,
+            });
+          } else {
+            await tg(token, "sendMessage", {
+              chat_id: chat_id,
+              reply_to_message_id: message_id,
+              text: "no payload",
+            });
+          }
           break;
       }
     }
